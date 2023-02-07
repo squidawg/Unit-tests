@@ -1,0 +1,23 @@
+{
+  "name": "unit-tests",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest",
+    "testwatch" : "jest --watchAll"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/squidawg/Unit-tests.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/squidawg/Unit-tests/issues"
+  },
+  "homepage": "https://github.com/squidawg/Unit-tests#readme",
+  "devDependencies": {
+    "jest": "^29.4.2"
+  }
+}
