@@ -7,6 +7,9 @@
     "test": "jest",
     "testwatch" : "jest --watchAll"
   },
+  "jest": {
+    "collectCoverage":true
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/squidawg/Unit-tests.git"
