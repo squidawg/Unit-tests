@@ -1,5 +1,7 @@
 const array = require('./array.js');
 
+const mockCallback = jest.fn(x => x !== 5);
+
 // chunk tests
 test('check that a function returns something ', () => {
     expect(array.chunk).toBeDefined()
@@ -60,13 +62,52 @@ test('parameter should be an array ', function () {
     expect(array.drop({})).toEqual('not an array')
 });
 
-const mockCallback = jest.fn(x => x !== 5);
-
+// dropWhile tests
 test('Check for working callback function', () =>{
 
     array.dropWhile([1,2,3,5,5,6], mockCallback);
 
     expect(mockCallback.mock.calls).toHaveLength(4);
     // unuseful
-    expect(mockCallback.mock.results[0].value).toBe(true)
+    expect(mockCallback.mock.results[0].value).toBe(true);
+})
+
+describe('Creates a slice of array excluding elements dropped from the beginning. ' +
+    'Elements are dropped until predicate returns falsey. ', () => {
+    it.each([
+        [[1,2,3,3,5,5,6],[5,5,6],(x) =>x !== 5],
+        [[1,2,3,4,5],[4,5],(x) =>x !== 4],
+    ])(` %O => %O`,
+        (x,result,y) => {
+            expect(array.dropWhile(x,y)).toEqual(result)
+        })
+})
+
+// take tests
+
+describe("Creates a slice of array with n elements taken from the beginning.", () => {
+    it.each([
+        [[1,2,3],1,[1]],
+        [[1,2,3],2,[1,2]],
+        [[1,2,3],5,[1,2,3]],
+        [[1,2,3],0,[]],
+    ])(` (%O , %O) =>  %O`,
+        (x,y,result) => {
+            expect(array.take(x,y)).toEqual(result)
+        })
+})
+
+describe('"take" function should pass these tests', () =>{
+    it('"take" function should be defined', () => {
+        expect(array.take).toBeDefined()
+    })
+    it('should return an error if array is undefined', ()=> {
+        const testing = array.take(undefined);
+        expect(testing).toBeInstanceOf(Error);
+        expect(testing.message).toBe('array not defined')
+    });
+    it('should return an array with default n elements taken from the beginning', ()=>{
+        const testing = array.take([1,2,3]);
+        expect(testing).toEqual([1])
+    })
 })

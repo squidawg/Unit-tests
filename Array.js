@@ -1,3 +1,7 @@
+const polyfill = require('./polyfill.js');
+const utilityFind = require('./array.Find.js');
+const utilityFilter = require('./array.Filter.js');
+
 const array = {
     chunk : function (arr, size) {
     const tempArr = [];
@@ -9,7 +13,7 @@ const array = {
     }
     let i = 0;
     while (i < arr.length) {
-        tempArr.push(arr.slice(i, i + size));
+        polyfill.push(tempArr, polyfill.slice(arr, i, i + size));
         i += size;
     }
     return tempArr;
@@ -22,7 +26,7 @@ const array = {
         }
         while (i < array.length) {
             if(array[i]){
-                temp.push(array[i]);
+                polyfill.push(temp, array[i]);
             }
             i+=1;
         }
@@ -36,21 +40,55 @@ const array = {
         }
         const temp = []
         while(n < array.length){
-            temp.push(array[n]);
+            polyfill.push(temp, array[n]);
             n +=1 ;
         }
         return temp
     },
-    dropWhile: (array, callback) => {
+    dropWhile: (collection, callback) => {
         let i = 0;
-        while(i < array.length) {
-            let result = callback(array[i]);
+        while(i < collection.length) {
+            let result = callback(collection[i]);
             if(!result) {
                 break;
             }
             i += 1;
         }
-        return array.slice(i);
+        return  polyfill.slice(collection, i);
+    },
+    take: (array, end= 1) => {
+        if(!Array.isArray(array)){
+           return new Error('array not defined')
+        }
+        return polyfill.slice(array, 0, end)
+    },
+    filter: (collection, predicate) => {
+        if (typeof predicate === 'string') {
+            return utilityFilter.property(collection, predicate);
+        }
+        if (typeof predicate === 'function') {
+            return utilityFilter.matchesWithCallback(collection, predicate);
+        }
+        if (Array.isArray(predicate)) {
+            return utilityFilter.matchesProperty(collection, predicate);
+        }
+        if (!Array.isArray(predicate) && predicate instanceof Object) {
+            return utilityFilter.matches(collection, predicate);
+        }
+    },
+    find: (collection, predicate) => {
+        if (typeof predicate === 'string') {
+            return utilityFind.property(collection, predicate);
+        }
+        if (typeof predicate === 'function') {
+            return utilityFind.matchesWithCallback(collection, predicate);
+        }
+        if (Array.isArray(predicate)) {
+            return utilityFind.matchesProperty(collection, predicate);
+        }
+        if (!Array.isArray(predicate) && predicate instanceof Object) {
+            return utilityFind.matches(collection, predicate);
+        }
     },
 }
 
