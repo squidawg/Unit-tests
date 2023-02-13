@@ -2,6 +2,13 @@ const polyfill = require('./polyfill.js');
 const utilityFind = require('./array.Find.js');
 const utilityFilter = require('./array.Filter.js');
 
+Array.prototype.myMap = (callback) => {
+    let result = [];
+    for(let i = 0; i < this.length; i += 1) {
+        result.push(callback(this[i], i, this));
+    }
+    return result;
+}
 const array = {
     chunk : function (arr, size) {
     const tempArr = [];
@@ -63,6 +70,10 @@ const array = {
         return polyfill.slice(array, 0, end)
     },
     filter: (collection, predicate) => {
+        if (typeof predicate === "undefined"){
+            return collection
+        }
+
         if (typeof predicate === 'string') {
             return utilityFilter.property(collection, predicate);
         }
@@ -90,6 +101,51 @@ const array = {
             return utilityFind.matches(collection, predicate);
         }
     },
+    includes: (collection, value, fromIndex= 0) => {
+        if(Array.isArray(collection)) {
+            for (let i = fromIndex; i < collection.length; i += 1) {
+                if ( collection[i] === value) {
+                    return true;
+                }
+            }
+            return false;
+        }
+        if(typeof collection === "string"){
+            return collection.includes(value, fromIndex);
+        }
+        if(!Array.isArray(collection) && collection instanceof Object) {
+            return value in Object.values(collection);
+
+        }
+    },
+    map: (collection , callback) => {
+        const result = [];
+        if(Array.isArray(collection) && typeof callback === "function") {
+            for(let item of collection) {
+                result.push(callback(item))
+            }
+        }
+        if(!Array.isArray(collection) && collection instanceof Object && typeof callback === "function") {
+            for(let item of Object.values(collection)) {
+                result.push(callback(item))
+            }
+        }
+        if(Array.isArray(collection) && typeof callback === "string") {
+            for (let obj of collection) {
+                for ( let key in obj) {
+                    if ( key === callback) {
+                        result.push(obj[key])
+                    }
+                }
+            }
+        }
+        return result.length === 0 ? [undefined] : result
+    },
+    zip:  (arr, ...args) => {
+        return arr.myMap((item, index) => [item, ...args.myMap(arr => arr[index])]);
+    },
 }
 
+
 module.exports = array;
+

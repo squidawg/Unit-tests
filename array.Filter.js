@@ -1,4 +1,5 @@
 const polyfill = require("./polyfill.js");
+
 const utilityFilter = {
     matches: (collection, predicate) => {
         let result = [];
@@ -14,7 +15,7 @@ const utilityFilter = {
             }
             count = 0
         }
-        return result.length === 0 ? undefined: result;
+        return result;
     },
     matchesProperty: (collection, predicate) => {
         let compare;
@@ -26,7 +27,7 @@ const utilityFilter = {
                 polyfill.push(result, obj);
             }
         }
-        return result.length === 0 ? undefined: result;
+        return result;
     },
     property: (collection, property) => {
         let compare;
@@ -37,7 +38,7 @@ const utilityFilter = {
                 polyfill.push(result, obj);
             }
         }
-        return result.length === 0 ? undefined: result;
+        return result;
     },
     matchesWithCallback: (collection, callback) => {
         let result= [];
@@ -46,7 +47,8 @@ const utilityFilter = {
                 polyfill.push(result, obj);
             }
         }
-        return result.length === 0 ? undefined: result;
+        return result;
     },
 }
 module.exports = utilityFilter;
+
