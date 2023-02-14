@@ -31,15 +31,14 @@ const polyfill = {
         }
         return false;
     },
-    myEvery: (arr, callback) => {
-        let count = 0;
-        for(let i = 0; i < arr.length; i++) {
-            if(callback(arr[i], i, arr)) {
-                count = i
-            }
-        }
-        return count === arr.length - 1;
-    }
+    // myEvery: (arr, callback) => {
+    //     for(let i = 0; i < arr.length; i++) {
+    //         if(!callback(arr[i], i, arr)) {
+    //             return false
+    //         }
+    //     }
+    //     return true;
+    // }
 }
 
 module.exports = polyfill;

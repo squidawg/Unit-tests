@@ -92,7 +92,7 @@ describe("Creates a slice of array with n elements taken from the beginning.", (
             expect(array.take(x,y)).toEqual(result)
         });
     it('"take" function should be defined', () => {
-        expect(array.take).toBeDefined()
+        expect(array.take).toBeDefined();
     })
     it('should return an error if array is undefined', ()=> {
         const testing = array.take(undefined);
@@ -101,7 +101,7 @@ describe("Creates a slice of array with n elements taken from the beginning.", (
     });
     it('should return an array with default n elements taken from the beginning', ()=>{
         const testing = array.take([1,2,3]);
-        expect(testing).toEqual([1])
+        expect(testing).toEqual([1]);
     })
 });
 
@@ -166,8 +166,6 @@ describe('Iterates over elements of collection, returning the first element pred
         expect(utilityFind.matchesProperty).toBeDefined();
         expect(utilityFind.matchesWithCallback).toBeDefined();
     });
-    it('', () => {
-    });
     it.each(
         [
             [{ 'user': 'barney',  'age': 36, 'active': true }, 'active', users],
@@ -180,9 +178,96 @@ describe('Iterates over elements of collection, returning the first element pred
         });
     it('Correct for: o => o.age < 40; ', () => {
         array.find(users, mockCallback);
-        console.log(mockCallback.mock)
         expect(mockCallback.mock.calls).toHaveLength(1);
         expect(mockCallback.mock.results[0].value = true);
-        expect(mockCallback.mock.lastCall.value = { 'user': 'barney',  'age': 36, 'active': true })
+        expect(mockCallback.mock.lastCall.value = { 'user': 'barney',  'age': 36, 'active': true });
+    });
+    it("Should return collection if no predicate was passed to a function", () => {
+        expect(array.find(users)).toStrictEqual(users);
+    });
+})
+
+// includes
+describe('Checks if value is in collection. If collection is a string, it\'s checked for a substring of value,', () => {
+    it('includes function should be defined', () => {
+        expect(array.includes).toBeDefined();
+    });
+    it.each(
+        [
+            [[1,2,3],1, true],
+            [[1,2,3],1, false, 2],
+            [{ 'a': 1, 'b': 2 }, 1, true],
+            ['abcd', 'bc', true],
+            ['string','',true]
+        ]
+    )('Correct for [%O, %o] => %o', (x,y,result,fromIndex = 0) => {
+            expect(array.includes(x,y,fromIndex)).toEqual(result);
+        }
+    )
+    it.each(
+        [
+            ['string',0,false],
+            [{},'string',false,2],
+            ['string','Y',false]
+        ]
+    )('Returns False for [%O, %o] => %o', (x,y,result,fromIndex = 0) => {
+        expect(array.includes(x,y,fromIndex)).toEqual(result);
     })
+})
+
+// map
+describe('Creates an array of values by running each element in collection thru iteratee. ', () => {
+    const callback = (x) => x * x;
+    const mockCallback = jest.fn(callback);
+    const testObject = { 'a': 4, 'b': 8 };
+    const  users = [
+        { 'user': 'barney' },
+        { 'user': 'fred' }
+    ];
+    it('map function should be defined', () => {
+        expect(array.map).toBeDefined();
+    });
+    it.each(
+        [
+            [[4, 8],[16, 64], callback],
+            [{ 'a': 4, 'b': 8 }, [16, 64], callback],
+            [users, ['barney', 'fred'], 'user'],
+        ]
+    )('Correct for %O => %O', (x,result, y) => {
+            expect(array.map(x,y)).toEqual(result);
+        }
+    );
+    it.each(
+        [
+            [[4, 8],[undefined,undefined], 's'],
+            [[4, 8],[undefined,undefined], 1],
+            [[4, 8],[undefined,undefined], true],
+        ]
+    )('Expect result for %O => %O with %O', (x,result, y) => {
+            expect(array.map(x,y)).toEqual(result);
+        }
+    );
+    it('Callback testing for array', () => {
+        array.map([4,8],mockCallback);
+        expect(mockCallback.mock.calls).toHaveLength(2);
+        expect(mockCallback.mock.results[0].value = 16);
+        expect(mockCallback.mock.results[0].value = 64);
+        expect(mockCallback.mock.lastCall.value = 8);
+    });
+})
+
+// zip
+describe('Creates an array of grouped elements.', () => {
+    const result = [ [ 'a', 1, true ], [ 'b', 2, false ] ];
+
+    it('.zip method should be defined', () => {
+        expect(array.zip).toBeDefined()
+    })
+    it(`Correct for : [ ['a', 'b'], [1, 2], [true, false] ] => [ [ \'a\', 1, true ], [ \'b\', 2, false ] ] `, () => {
+        expect(array.zip(['a', 'b'], [1, 2], [true, false])).toEqual(result);
+    })
+    it('Should return empty array called without arguments', () => {
+        expect(array.zip()).toStrictEqual([]);
+    })
+
 })

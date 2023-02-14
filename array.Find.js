@@ -3,7 +3,7 @@ const utilityFind = {
     matchesProperty: (collection, property) => {
         let compare;
         for(let obj of collection) {
-            compare =  polyfill.myEvery(Object.entries(obj),arr =>
+            compare =  polyfill.mySome(Object.entries(obj),arr =>
                 JSON.stringify(arr) === JSON.stringify(property));
             if(compare) {
                 return obj;

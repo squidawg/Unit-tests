@@ -21,7 +21,7 @@ const utilityFilter = {
         let compare;
         let result = [];
         for(let obj of collection) {
-            compare =  polyfill.myEvery(Object.entries(obj),arr =>
+            compare =  polyfill.mySome(Object.entries(obj),arr =>
                 JSON.stringify(arr) === JSON.stringify(predicate));
             if(compare) {
                 polyfill.push(result, obj);
