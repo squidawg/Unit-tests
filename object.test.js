@@ -33,4 +33,41 @@ describe('This method creates an object composed of the own and inherited enumer
     ])('Correct for %O, %O => %O', (x,y,result) => {
         expect(object.omit(x,y)).toEqual(result);
     })
+});
+describe('this method creates an object composed of the own and inherited enumerable string keyed properties ' +
+    'of object that predicate doesn\'t return truthy for', () => {
+    const isBool = (e) => typeof e === "boolean";
+    const isNum = (e) => typeof e === "number";
+    const isString = (e) => typeof e === "string";
+    const mockIsNum = jest.fn(isNum);
+    const mockIsString = jest.fn(isString)
+    const testObj = { 'a': 1, 'b': '2', 'c': 3 };
+    const boolObj = { 'a': true, 'b': '2', 'c': true };
+
+    it('.omitBy should be dedfined', () => {
+        expect(object.omitBy).toBeDefined();
+    });
+
+    it.each([
+        [testObj,{ 'b': '2' }, isNum],
+        [testObj,{ 'a': 1,  'c': 3 }, isString],
+        [boolObj,{ 'b': '2' }, isBool]
+    ])('Correct for: %O => %O',(x,result,y) => {
+        expect(object.omitBy(x,y)).toEqual(result);
+    });
+
+    it('validates callback IsNum tests', () => {
+        object.omitBy(testObj,mockIsNum);
+        expect(mockIsNum.mock.calls).toHaveLength(3);
+        expect(mockIsNum.mock.results[1].value).toBeFalsy();
+        expect(mockIsNum.mock.lastCall.value = 3);
+
+    });
+    it('validates callback IsString tests', () => {
+        object.omitBy(testObj,mockIsString);
+        expect(mockIsString.mock.calls).toHaveLength(3);
+        expect(mockIsString.mock.results[1].value).toBeTruthy();
+        expect(mockIsString.mock.lastCall.value = 3);
+
+    });
 })
