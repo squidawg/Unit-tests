@@ -8,7 +8,7 @@ Array.prototype.myMap = function (callback) {
         result.push(callback(this[i], i, this));
     }
     return result;
-}
+};
 
 const array = {
     chunk : function (arr, size) {

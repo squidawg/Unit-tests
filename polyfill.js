@@ -1,4 +1,11 @@
 const polyfill = {
+    join: (arr) => {
+        let result = '';
+        for(let i = 0; i < arr.length; i++) {
+            result += arr[i];
+        }
+        return result
+    },
     push: (arr, x) => {
         if(!Array.isArray(arr)) {
             return new Error('not an array');
