@@ -4,16 +4,19 @@ const polyfill = {
         for(let i = 0; i < arr.length; i++) {
             result += arr[i];
         }
-        return result
+        return result;
     },
-    push: (arr, x) => {
+    push: (arr, ...x) => {
+        const temp = [...x];
         if(!Array.isArray(arr)) {
             return new Error('not an array');
         }
-        let len = arr.length;
-        arr[len] = x;
-        len++;
-        arr.length = len;
+        for(let item of temp){
+            let len = arr.length;
+            arr[len] = item;
+            len++;
+            arr.length = len;
+        }
         return arr;
     },
     slice: (arr, start, end) => {
@@ -38,14 +41,9 @@ const polyfill = {
         }
         return false;
     },
-    // myEvery: (arr, callback) => {
-    //     for(let i = 0; i < arr.length; i++) {
-    //         if(!callback(arr[i], i, arr)) {
-    //             return false
-    //         }
-    //     }
-    //     return true;
-    // }
+    has: (obj, property) => {
+        return !!obj[property];
+    },
 }
 
 module.exports = polyfill;

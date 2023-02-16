@@ -14,9 +14,9 @@ const array = {
     chunk : function (arr, size) {
     const tempArr = [];
     if(!size) {
-        return arr
+        return arr;
     }
-    if(!Array.isArray(arr)){
+    if(!Array.isArray(arr)) {
         return 'not an array';
     }
     let i = 0;
@@ -30,28 +30,28 @@ const array = {
         const temp = [];
         let i = 0;
         if(!Array.isArray(array)) {
-            return 'not an array'
+            return 'not an array';
         }
         while (i < array.length) {
             if(array[i]){
                 polyfill.push(temp, array[i]);
             }
-            i+=1;
+            i += 1;
         }
-        return temp
+        return temp;
 
 
     },
     drop: (array, n= 1) => {
-        if(!Array.isArray(array)){
-            return 'not an array'
+        if(!Array.isArray(array)) {
+            return 'not an array';
         }
         const temp = []
-        while(n < array.length){
+        while(n < array.length) {
             polyfill.push(temp, array[n]);
-            n +=1 ;
+            n +=1;
         }
-        return temp
+        return temp;
     },
     dropWhile: (collection, callback) => {
         let i = 0;
@@ -71,7 +71,7 @@ const array = {
         return polyfill.slice(array, 0, end);
     },
     filter: (collection, predicate) => {
-        if (typeof predicate === "undefined"){
+        if (typeof predicate === "undefined") {
             return collection;
         }
         if (typeof predicate === 'string') {
@@ -126,7 +126,7 @@ const array = {
     },
     map: (collection , callback) => {
         const result = [];
-        const len = Array.isArray(collection)? collection.length: Object.keys(collection).length;
+        const len = Array.isArray(collection)? collection.length : Object.keys(collection).length;
         if(typeof callback === "undefined") {
             return collection;
         }
