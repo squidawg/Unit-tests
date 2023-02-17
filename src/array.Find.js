@@ -1,4 +1,5 @@
 const polyfill = require('./polyfill.js');
+
 const utilityFind = {
     matchesProperty: (collection, property) => {
         let compare;
@@ -40,9 +41,9 @@ const utilityFind = {
             if(count === Object.keys(property).length) {
                 return obj;
             }
-            count = 0
+            count = 0;
         }
-        return undefined
+        return undefined;
     }
 }
 

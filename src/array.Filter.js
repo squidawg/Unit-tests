@@ -11,7 +11,7 @@ const utilityFilter = {
                 }
             }
             if(count === Object.keys(predicate).length) {
-                result.push(obj)
+                polyfill.push(result,obj)
             }
             count = 0
         }

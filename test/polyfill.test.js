@@ -1,4 +1,5 @@
-const polyfill = require('./polyfill.js')
+const polyfill = require('../src/polyfill.js')
+
 //push tests
 describe(".push method tests", () => {
     it('.push method should be defined', () => {

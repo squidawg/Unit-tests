@@ -1,4 +1,4 @@
-const object = require('./object.js');
+const object = require('../src/object.js');
 const testArr = [1,2,3,4,5];
 const testObj = { 'a': 1, 'b': '2', 'c': 3 };
 

@@ -1,6 +1,6 @@
-const array = require('./array.js');
-const utilityFilter = require('./array.Filter.js');
-const utilityFind = require('./array.Find.js');
+const array = require('../src/array.js');
+const utilityFilter = require('../src/array.Filter.js');
+const utilityFind = require('../src/array.Find.js');
 
 const mockCallback = jest.fn(x => x !== 5);
 const filterMockCallback = jest.fn(x => !x.active);
