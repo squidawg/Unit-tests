@@ -11,13 +11,13 @@ Array.prototype.myMap = function (callback) {
 };
 
 const array = {
-    chunk : function (arr, size) {
+    chunk : function (arr, size = 1) {
     const tempArr = [];
     if(!size) {
         return arr;
     }
     if(!Array.isArray(arr)) {
-        return 'not an array';
+        return [];
     }
     let i = 0;
     while (i < arr.length) {
@@ -30,7 +30,7 @@ const array = {
         const temp = [];
         let i = 0;
         if(!Array.isArray(array)) {
-            return 'not an array';
+            return [];
         }
         while (i < array.length) {
             if(array[i]){
@@ -43,18 +43,18 @@ const array = {
 
     },
     drop: (array, n= 1) => {
-        if(!Array.isArray(array)) {
-            return 'not an array';
-        }
-        const temp = []
-        while(n < array.length) {
-            polyfill.push(temp, array[n]);
-            n +=1;
+        const temp = [];
+        if(Array.isArray(array) || typeof array === 'string') {
+            while (n < array.length) {
+                polyfill.push(temp, array[n]);
+                n += 1;
+            }
         }
         return temp;
     },
     dropWhile: (collection, callback) => {
         let i = 0;
+
         while(i < collection.length) {
             let result = callback(collection[i]);
             if(!result) {
@@ -66,7 +66,7 @@ const array = {
     },
     take: (array, end= 1) => {
         if(!Array.isArray(array)){
-           return new Error('array not defined');
+           return [];
         }
         return polyfill.slice(array, 0, end);
     },

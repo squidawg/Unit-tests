@@ -7,6 +7,9 @@ const filterMockCallback = jest.fn(x => !x.active);
 
 // chunk tests
 describe('Returns the new array of chunks', () => {
+    it('.chunk method should be defined', () => {
+        expect(array.chunk).toBeDefined();
+    })
     it.each([
         [['a','b','c','d'], 2, [['a','b'],['c','d']]],
         [['a','b','c','d', 'e'], 3, [['a','b','c'], ['d','e']]],
@@ -14,33 +17,42 @@ describe('Returns the new array of chunks', () => {
         [['a','b','c','d','e','f','g','h'], 2, [['a','b'],['c','d'],['e','f'],['g','h']]]
     ])(`takes : %O with chunk size: %i and returns : %O `,
         (x,y, result) => {
-        expect(array.chunk(x,y)).toEqual(result)
+        expect(array.chunk(x,y)).toEqual(result);
         });
     it('Check that a function returns something ', () => {
-        expect(array.chunk).toBeDefined()
+        expect(array.chunk).toBeDefined();
     });
-    it('Argument should be an array ', function () {
-        expect(array.chunk({},2)).toEqual('not an array')
+    it('Case when call a function without args returns [] ',  () => {
+        expect(array.chunk()).toStrictEqual([])
+    });
+    it('Case when call a function with 1 arg returns [ [ \'a\' ], [ \'b\' ], [ \'c\' ], [ \'d\' ] ] ',  () =>  {
+        expect(array.chunk(['a', 'b', 'c', 'd'])).toStrictEqual([ [ 'a' ], [ 'b' ], [ 'c' ], [ 'd' ] ])
     });
 });
 
 // compact tests
-describe('Creates an array with all falsey values removed', () => {
+describe('Creates an array with all falsy values removed', () => {
+    it('.compact should be defined', () => {
+        expect(array.compact).toBeDefined();
+    });
     it.each([
         [[false,1,2,NaN,0],[1,2]],
         [[1,2,3,4,5],[1,2,3,4,5]],
         [['this', NaN, "won't", false, 'affect'], ['this', "won't", 'affect']]
     ])(`%O => %O`,
         (x,result) => {
-            expect(array.compact(x)).toEqual(result)
+            expect(array.compact(x)).toEqual(result);
         });
-    it('parameter should be an array ', function () {
-        expect(array.compact({})).toEqual('not an array')
+    it('For {} should return [] ', function () {
+        expect(array.compact({})).toStrictEqual([])
     });
 });
 
 // drop tests
 describe('Creates a slice of array with n elements dropped from the beginning.', () => {
+    it('.drop method should be defined', () => {
+        expect(array.drop).toBeDefined();
+    });
     it.each([
         [[1,2,3],0,[1,2,3]],
         [[1,2,3,4,5],1,[2,3,4,5]],
@@ -51,18 +63,30 @@ describe('Creates a slice of array with n elements dropped from the beginning.',
         (x,y,result) => {
             expect(array.drop(x,y)).toEqual(result)
         });
-    it(`input [1,2,3] default value drops 1 element(s) become [2,3]`, function () {
+
+    it(`input [1,2,3] default value drops 1 element(s) become [2,3]`,  () => {
         expect(array.drop([1,2,3])).toEqual([2,3])
     });
-
-    it('parameter should be an array ', function () {
-        expect(array.drop({})).toEqual('not an array')
+    it(`input 'string' default value drops 1 element(s) become [ 't', 'r', 'i', 'n', 'g' ]`,  () => {
+        expect(array.drop('string')).toEqual([ 't', 'r', 'i', 'n', 'g' ])
+    });
+    it.each([
+        [NaN],
+        [false],
+        [1],
+        [10000],
+        [{}]
+    ])('Should return [] for : %O ',  (x) => {
+        expect(array.drop(x)).toEqual([])
     });
 });
 
 // dropWhile tests
 describe('Creates a slice of array excluding elements dropped from the beginning. ' +
     'Elements are dropped until predicate returns falsey. ', () => {
+    it('.dropWhile method should be defined', () => {
+        expect(array.dropWhile).toBeDefined();
+    });
     it.each([
         [[1,2,3,3,5,5,6],[5,5,6],(x) =>x !== 5],
         [[1,2,3,4,5],[4,5],(x) =>x !== 4],
@@ -82,6 +106,9 @@ describe('Creates a slice of array excluding elements dropped from the beginning
 
 // take
 describe("Creates a slice of array with n elements taken from the beginning.", () => {
+    it('.take method should be defined', () => {
+        expect(array.take).toBeDefined();
+    });
     it.each([
         [[1,2,3],1,[1]],
         [[1,2,3],2,[1,2]],
@@ -94,10 +121,9 @@ describe("Creates a slice of array with n elements taken from the beginning.", (
     it('"take" function should be defined', () => {
         expect(array.take).toBeDefined();
     })
-    it('should return an error if array is undefined', ()=> {
+    it('should return [] if array is undefined', ()=> {
         const testing = array.take(undefined);
-        expect(testing).toBeInstanceOf(Error);
-        expect(testing.message).toBe('array not defined')
+        expect(testing).toStrictEqual([]);
     });
     it('should return an array with default n elements taken from the beginning', ()=>{
         const testing = array.take([1,2,3]);
@@ -111,6 +137,9 @@ describe("Iterates over elements of collection, returning an array of all elemen
         { 'user': 'barney', 'age': 36, 'active': true },
         { 'user': 'fred',   'age': 40, 'active': false }
     ];
+    it('.filter method should be defined', () => {
+        expect(array.filter).toBeDefined();
+    });
     it('.filter method should be define ', () => {
         expect(array.filter).toBeDefined();
         expect(utilityFilter.matches).toBeDefined();
@@ -219,7 +248,6 @@ describe('Checks if value is in collection. If collection is a string, it\'s che
 describe('Creates an array of values by running each element in collection thru iteratee. ', () => {
     const callback = (x) => x * x;
     const mockCallback = jest.fn(callback);
-    const testObject = { 'a': 4, 'b': 8 };
     const  users = [
         { 'user': 'barney' },
         { 'user': 'fred' }

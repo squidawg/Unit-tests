@@ -25,19 +25,6 @@ describe(".slice method tests", () => {
         expect(testing.message).toBe('not an array')
     });
     it('Should slice array from index: 1', () => {
-        expect(polyfill.slice([1,2,3],1)).toStrictEqual([2,3])
+        expect(polyfill.slice([1,2,3],1)).toStrictEqual([2,3]);
     });
 });
-
-//myEvery tests
-// describe('.myEvery method tests', () => {
-//     const mockCallback = jest.fn(key => key !== 'test');
-//     const users = { 'user': 'barney', 'age': 36, 'active': true };
-//     it('.myEvery method should be defined',() => {
-//         expect(polyfill.myEvery).toBeDefined();
-//     });
-//     it('Callback tests', () => {
-//         polyfill.myEvery(Object.keys(users),mockCallback);
-//         expect(mockCallback.mock.calls).toHaveLength(3);
-//     })
-// })
